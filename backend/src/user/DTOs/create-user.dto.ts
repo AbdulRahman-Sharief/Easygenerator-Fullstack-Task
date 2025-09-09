@@ -1,3 +1,4 @@
+import { Expose } from 'class-transformer';
 import {
   IsEmail,
   IsNotEmpty,
@@ -10,10 +11,12 @@ export class CreateUserDTO {
   @IsString({ message: 'Name must be a string.' })
   @MinLength(3, { message: 'Name must be at least 3 characters long.' })
   @IsNotEmpty({ message: 'Name is required.' })
+  @Expose()
   name: string;
 
   @IsEmail({}, { message: 'Email must be a valid email address.' })
   @IsNotEmpty({ message: 'Email is required.' })
+  @Expose()
   email: string;
 
   @IsString({ message: 'Password must be a string.' })
@@ -26,5 +29,6 @@ export class CreateUserDTO {
     },
   )
   @IsNotEmpty({ message: 'Password is required.' })
+  @Expose()
   password: string;
 }

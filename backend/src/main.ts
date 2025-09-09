@@ -27,7 +27,6 @@ async function bootstrap() {
     }),
   );
 
-  app.useBodyParser('json', { limit: '50mb' });
   app.setGlobalPrefix('api/v1/');
   app.useStaticAssets(join(__dirname, '..', 'public'));
   app.setBaseViewsDir(join(__dirname, '..', 'views'));

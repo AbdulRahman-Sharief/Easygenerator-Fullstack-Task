@@ -41,7 +41,7 @@ export class UserService {
 
   async findByEmail(email: string): Promise<UserDocument | null> {
     try {
-      const user = await this.UserModel.findOne({ email });
+      const user = await this.UserModel.findOne({ email }).select('+password');
       if (!user) {
         throw new NotFoundException(`User with email "${email}" not found`);
       }
@@ -50,6 +50,25 @@ export class UserService {
       if (error instanceof NotFoundException) throw error;
 
       console.error('Unexpected error in UserService.findByEmail:', error);
+      throw new InternalServerErrorException(
+        'Something went wrong. Please try again later.',
+      );
+    }
+  }
+
+  async findById(id: string): Promise<UserDocument> {
+    try {
+      const user = await this.UserModel.findById(id);
+      if (!user) {
+        throw new NotFoundException(`User with ID "${id}" not found`);
+      }
+      return user;
+    } catch (err: any) {
+      if (err.name === 'CastError') {
+        throw new BadRequestException(`Invalid ID format`);
+      }
+      if (err instanceof NotFoundException) throw err;
+      console.error('Unexpected error in UserService.findById:', err);
       throw new InternalServerErrorException(
         'Something went wrong. Please try again later.',
       );
