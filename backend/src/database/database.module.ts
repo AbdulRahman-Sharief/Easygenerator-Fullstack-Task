@@ -1,6 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { UserSchema } from 'src/user/entities/user.entity';
 
 @Global()
 @Module({
@@ -13,6 +14,8 @@ import { MongooseModule } from '@nestjs/mongoose';
         dbName: config.get<string>('DB_NAME'),
       }),
     }),
+
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
   ],
   exports: [MongooseModule],
 })
