@@ -56,7 +56,7 @@ export class UserService {
     }
   }
 
-  async findById(id: string): Promise<UserDocument> {
+  async findById(id: string | undefined): Promise<UserDocument> {
     try {
       const user = await this.UserModel.findById(id);
       if (!user) {
